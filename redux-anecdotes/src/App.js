@@ -1,10 +1,14 @@
 import React from 'react';
 
+import { incrementVotesOfAnecdote } from './reducers/anecdoteReducer'
+
 const App = (props) => {
-  const anecdotes = props.store.getState()
+  const store = props.store
+  const anecdotes = store.getState()
 
   const vote = (id) => {
-    console.log('vote', id)
+    console.log('vote', id) 
+    store.dispatch(incrementVotesOfAnecdote(id))
   }
 
   return (
