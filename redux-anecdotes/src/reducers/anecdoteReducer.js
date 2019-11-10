@@ -40,10 +40,10 @@ const reducer = (state = initialState, action) => {
   }
 }
 
+
 export const incrementVotesOfAnecdote = (id) => {
   return {type: 'INCREMENT_VOTES_OF_ANECDOTE', id}
 }
-
 export const addNewAnecdote = (content) => {
   return {type: 'ADD_NEW_ANECDOTE', content}
 }
