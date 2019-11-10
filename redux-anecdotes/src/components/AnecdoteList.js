@@ -8,7 +8,7 @@ const vote = (id, store) => {
 }
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState()
+  const anecdotes = store.getState().anecdoteList
   return anecdotes.map(anecdote =>
     <div key={anecdote.id}>
       <div>
