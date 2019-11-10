@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import App from './App'
-import anecdoteListReducer from './reducers/anecdoteReducer'
+import anecdoteReducer from './reducers/anecdoteReducer'
 import notificationReducer from './reducers/notificationReducer'
 import filterReducer from './reducers/filterReducer'
 
 const reducer = combineReducers({
-  anecdoteList: anecdoteListReducer,
+  anecdotes: anecdoteReducer,
   notification: notificationReducer,
   filter: filterReducer
 })
@@ -17,7 +17,7 @@ const store = createStore(reducer)
 const render = () => {
   ReactDOM.render(
     <Provider store={store}>
-      <App store={store} />
+      <App />
     </Provider>,
     document.getElementById('root')
   )
