@@ -17,6 +17,10 @@ const asObject = (anecdote) => {
   }
 }
 
+const sortByVotesDescending = (anecdotes) => {
+  return anecdotes.sort((a, b) => a.votes - b.votes)
+}
+
 const initialState = anecdotesAtStart.map(asObject)
 
 const reducer = (state = initialState, action) => {
@@ -25,11 +29,12 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case 'INCREMENT_VOTES_OF_ANECDOTE':
-      return state.map(a => 
-        (a.id === action.id) ? {...a, votes: a.votes+1} : a
-      )
+      return sortByVotesDescending(
+        state.map(a =>
+          (a.id === action.id) ? { ...a, votes: a.votes + 1 } : a
+        ))
     case 'ADD_NEW_ANECDOTE':
-      return [...state, asObject(action.content)]
+      return sortByVotesDescending([...state, asObject(action.content)])
     default:
         return state
   }
