@@ -6,10 +6,13 @@ const Notification = ({store}) => {
     padding: 10,
     borderWidth: 1
   }
+  const notificationText = store.getState().notification
   return (
-    <div style={style}>
-      {store.getState().notification}
-    </div>
+    (notificationText !== null) ?
+      <div style={style}>
+        {notificationText}
+      </div> :
+      <></>
   )
 }
 
