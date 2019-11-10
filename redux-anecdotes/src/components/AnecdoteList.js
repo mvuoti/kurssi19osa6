@@ -11,7 +11,13 @@ const vote = (id, store) => {
 }
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState().anecdoteList
+  const filter = store.getState().filter.toLowerCase().trim()
+  const anecdotes = store.getState().anecdoteList.filter(a => {
+    const filterDefined = filter !== ''
+    const filterMatches =
+      filterDefined && a.content.toLowerCase().indexOf(filter) >= 0
+    return filterMatches || !filterDefined
+  })
   return anecdotes.map(anecdote =>
     <div key={anecdote.id}>
       <div>
