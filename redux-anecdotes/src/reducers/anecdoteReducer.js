@@ -5,24 +5,21 @@ const sortByVotesDescending = (anecdotes) => {
 }
 
 const reducer = (state = [], action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
 
   switch (action.type) {
     case 'INIT_ANECDOTES':
-      return action.anecdotes
-    case 'INCREMENT_VOTES_OF_ANECDOTE':
-      return sortByVotesDescending(
-        state.map(a =>
-          (a.id === action.id) ? { ...a, votes: a.votes + 1 } : a
-        ))
+      return sortByVotesDescending(action.anecdotes)
     case 'ADD_NEW_ANECDOTE':
       return sortByVotesDescending([...state, action.anecdote])
+    case 'UPDATE_ANECDOTE':
+      return sortByVotesDescending(
+        state.map((a) =>
+          (a.id === action.anecdote.id) ? action.anecdote : a)
+      )
     default:
         return state
   }
 }
-
 
 export const initAnecdotes = () => {
   return async (dispatch) => {
@@ -31,10 +28,22 @@ export const initAnecdotes = () => {
   }
 }
 export const incrementVotesOfAnecdote = (id) => {
-  return {type: 'INCREMENT_VOTES_OF_ANECDOTE', id}
+  return async (dispatch) => {
+    const anecdote = await AnecdoteService.get(id)
+    if (!!anecdote) {
+      const updatedAnecdote = {...anecdote, votes: anecdote.votes+1 }
+      await AnecdoteService.save(updatedAnecdote)
+      dispatch({ type: 'UPDATE_ANECDOTE', anecdote: updatedAnecdote })
+    } else {
+      dispatch({ type: 'NOP' })
+    }
+  }
 }
-export const addNewAnecdote = (anecdote) => {
-  return {type: 'ADD_NEW_ANECDOTE', anecdote}
+export const addNewAnecdote = (content) => {
+  return async (dispatch) => {
+    const anecdote = await AnecdoteService.createNew(content)
+    dispatch({ type: 'ADD_NEW_ANECDOTE', anecdote })
+  }
 }
 
 export default reducer

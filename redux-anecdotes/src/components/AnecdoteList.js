@@ -14,7 +14,7 @@ const AnecdoteList = ({
   const vote = (id) => {
     incrementVotesOfAnecdote(id)
     setNotification(`Anecdote ${id} got a vote!!`)
-    window.setTimeout(clearNotification, 1000)
+    window.setTimeout(clearNotification, 5000)
   }
   return anecdotesToShow.map(anecdote =>
     <div key={anecdote.id}>
