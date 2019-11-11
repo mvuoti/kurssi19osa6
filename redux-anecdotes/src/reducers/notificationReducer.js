@@ -13,14 +13,12 @@ const notificationReducer = (state = initialState, action) => {
 
 export default notificationReducer
 
-export const setNotification = content => {
-  return {
-    type: 'SET_NOTIFICATION',
-    content
-  }
-}
-export const clearNotification = () => {
-  return {
-    type: 'CLEAR_NOTIFICATION',
+export const setNotification = (content, durationSeconds) => {
+  return (dispatch) => {
+    dispatch({ type: 'SET_NOTIFICATION', content })
+    window.setTimeout(
+      () => dispatch({ type: 'CLEAR_NOTIFICATION' }),
+      1000 * durationSeconds
+    )
   }
 }

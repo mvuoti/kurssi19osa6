@@ -2,19 +2,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { incrementVotesOfAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification, clearNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = ({
-    filter,
+    anecdotes,
     anecdotesToShow,
     incrementVotesOfAnecdote,
     setNotification,
-    clearNotification
   }) => {
   const vote = (id) => {
     incrementVotesOfAnecdote(id)
-    setNotification(`Anecdote ${id} got a vote!!`)
-    window.setTimeout(clearNotification, 5000)
+    const anecdote = anecdotes.find((a) => a.id === id)
+    console.log(anecdote)
+    setNotification(`Anecdote "${anecdote.content}" got a vote!!`, 5)
   }
   return anecdotesToShow.map(anecdote =>
     <div key={anecdote.id}>
@@ -29,7 +29,7 @@ const AnecdoteList = ({
   )
 }
 
-const applyFilterToAnecdotes = (anecdotes, filter) => {
+const getFilteredListOfAnecdotes = (anecdotes, filter) => {
     const substring = filter.trim().toLowerCase()
     const filterDefined = substring !== ''
     if (!filterDefined) {
@@ -44,15 +44,15 @@ const applyFilterToAnecdotes = (anecdotes, filter) => {
 
 const mapStateToProps = (state) => {
   return {
-    anecdotesToShow: applyFilterToAnecdotes(state.anecdotes, state.filter),
+    anecdotes: state.anecdotes,
+    anecdotesToShow: getFilteredListOfAnecdotes(state.anecdotes, state.filter),
     filter: state.filter
   }
 }
 
 const mapDispatchToProps = {
   incrementVotesOfAnecdote,
-  setNotification,
-  clearNotification
+  setNotification
 }
 
 const ConnectedAnecdoteList =

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { addNewAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification, clearNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 
 const AnecdoteForm = ({ addNewAnecdote, setNotification, clearNotification }) => {
@@ -10,8 +10,7 @@ const AnecdoteForm = ({ addNewAnecdote, setNotification, clearNotification }) =>
     e.preventDefault()
     const content = e.target.content.value
     addNewAnecdote(content)
-    setNotification(content)
-    window.setTimeout(() => { clearNotification() }, 5000)
+    setNotification(`New anecdote added: "${content}"`, 5)
     e.target.content.value = ''
   }
   return (
@@ -27,8 +26,7 @@ const AnecdoteForm = ({ addNewAnecdote, setNotification, clearNotification }) =>
 
 const mapDispatchToProps = {
   addNewAnecdote,
-  setNotification,
-  clearNotification
+  setNotification
 }
 
 const ConnectedAnecdoteForm = connect(null, mapDispatchToProps)(AnecdoteForm)
